@@ -1,0 +1,71 @@
+
+.nav-item {
+    transition: background 0.12s, color 0.12s, transform 0.2s ease;
+}
+
+.nav-item:hover {
+    transform: translateX(4px);
+}
+
+.nav-item.active:hover {
+    transform: translateX(4px);
+}
+
+.nav-item.active {
+    background: rgba(0, 120, 212, 0.12);
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.nav-item.active:hover {
+    background: rgba(0, 120, 212, 0.18);
+    color: var(--accent);
+}
+
+.sidebar {
+    position: relative;
+}
+
+.nav-indicator {
+    position: absolute;
+    left: 3px;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--accent);
+    transition: top 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                height 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.sidebar.sidebar-enter {
+    animation: sidebarSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes sidebarSlideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+.nav-item.nav-item-enter,
+.nav-divider.nav-item-enter {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: navItemFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes navItemFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.content-enter {
+    animation: contentFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-delay: 0.15s;
+    opacity: 0;
+}
+
+@keyframes contentFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}

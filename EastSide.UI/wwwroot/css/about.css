@@ -1,0 +1,75 @@
+.about-page {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.about-hero {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.about-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+}
+
+.about-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.about-version {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+.about-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.about-card p {
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+.about-section-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.about-muted {
+    color: var(--text-muted);
+}
+
+.about-links {
+    display: flex;
+    gap: 12px;
+}
+
+.about-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 13px;
+    transition: background 0.12s;
+}
+
+.about-link:hover {
+    background: var(--border);
+}

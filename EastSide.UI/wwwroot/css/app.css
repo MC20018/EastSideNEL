@@ -1,0 +1,295 @@
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --accent: #0078D4;
+    --accent-hover: #106EBE;
+    --bg: #f5f5f5;
+    --surface: #ffffff;
+    --text: #1a1a1a;
+    --text-secondary: #5c5c5c;
+    --text-muted: #8c8c8c;
+    --border: #e5e5e5;
+    --radius: 8px;
+    --shadow: 0 2px 8px rgba(0,0,0,0.08);
+    --shadow-toast: 0 8px 32px rgba(0,0,0,0.12);
+    --hover-bg: rgba(0,0,0,0.04);
+}
+
+[data-theme="dark"] {
+    --bg: #1a1a1a;
+    --surface: #2a2a2a;
+    --text: #e5e5e5;
+    --text-secondary: #a0a0a0;
+    --text-muted: #6b6b6b;
+    --border: #3a3a3a;
+    --shadow: 0 2px 8px rgba(0,0,0,0.3);
+    --shadow-toast: 0 8px 32px rgba(0,0,0,0.4);
+    --hover-bg: rgba(255,255,255,0.06);
+}
+
+body {
+    font-family: "Segoe UI", "Microsoft YaHei UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+    height: 100vh;
+    user-select: none;
+}
+
+[data-backdrop="acrylic"] body,
+[data-backdrop="mica"] body {
+    background: transparent;
+}
+
+[data-backdrop="acrylic"] #titlebar,
+[data-backdrop="acrylic"] .sidebar,
+[data-backdrop="acrylic"] #content,
+[data-backdrop="mica"] #titlebar,
+[data-backdrop="mica"] .sidebar,
+[data-backdrop="mica"] #content {
+    background: color-mix(in srgb, var(--bg) 55%, transparent);
+}
+
+[data-backdrop="acrylic"] .sidebar,
+[data-backdrop="mica"] .sidebar {
+    border-right-color: color-mix(in srgb, var(--border) 30%, transparent);
+}
+
+[data-backdrop="acrylic"] .card,
+[data-backdrop="acrylic"] .settings-card,
+[data-backdrop="acrylic"] .account-table,
+[data-backdrop="acrylic"] .session-card,
+[data-backdrop="acrylic"] .plugin-card,
+[data-backdrop="acrylic"] .dialog-box,
+[data-backdrop="acrylic"] .overview-grid .card,
+[data-backdrop="mica"] .card,
+[data-backdrop="mica"] .settings-card,
+[data-backdrop="mica"] .account-table,
+[data-backdrop="mica"] .session-card,
+[data-backdrop="mica"] .plugin-card,
+[data-backdrop="mica"] .dialog-box,
+[data-backdrop="mica"] .overview-grid .card {
+    background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+
+[data-custom-bg] body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: var(--custom-bg-image) center / cover no-repeat;
+    opacity: 0.35;
+    z-index: -1;
+    pointer-events: none;
+}
+
+[data-custom-bg]:not([data-backdrop]) .sidebar,
+[data-custom-bg][data-backdrop="none"] .sidebar {
+    background: color-mix(in srgb, var(--surface) 70%, transparent);
+    border-right-color: color-mix(in srgb, var(--border) 50%, transparent);
+}
+
+[data-custom-bg]:not([data-backdrop]) #titlebar,
+[data-custom-bg][data-backdrop="none"] #titlebar {
+    background: color-mix(in srgb, var(--bg) 70%, transparent);
+}
+
+[data-custom-bg] .card,
+[data-custom-bg] .settings-card,
+[data-custom-bg] .account-table,
+[data-custom-bg] .session-card,
+[data-custom-bg] .plugin-card,
+[data-custom-bg] .dialog-box {
+    background: color-mix(in srgb, var(--surface) 80%, transparent);
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.app-body {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    min-height: 0;
+}
+
+#titlebar {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    background: var(--bg);
+    flex-shrink: 0;
+}
+
+.titlebar-drag {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+    cursor: default;
+}
+
+.titlebar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.titlebar-logo {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+}
+
+.titlebar-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.titlebar-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-right: 14px;
+}
+
+.tb-btn {
+    width: 14px;
+    height: 14px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: filter 0.15s;
+}
+
+.tb-icon {
+    opacity: 0;
+    transition: opacity 0.15s;
+    pointer-events: none;
+}
+
+.titlebar-controls:hover .tb-icon {
+    opacity: 1;
+}
+
+.tb-close {
+    background: #FF5F57;
+    color: #4a0002;
+}
+
+.tb-close:hover {
+    filter: brightness(0.88);
+}
+
+.tb-minimize {
+    background: #FFBD2E;
+    color: #6b4e00;
+}
+
+.tb-minimize:hover {
+    filter: brightness(0.88);
+}
+
+.tb-maximize {
+    background: #28C840;
+    color: #0a5417;
+}
+
+.tb-maximize:hover {
+    filter: brightness(0.88);
+}
+
+.tb-btn:active {
+    filter: brightness(0.75);
+}
+
+#content {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#content.content-main {
+    display: block;
+}
+
+#page-content {
+    overflow: hidden;
+}
+
+.page-slide-down {
+    animation: pageSlideDown 0.25s ease-out;
+}
+
+.page-slide-up {
+    animation: pageSlideUp 0.25s ease-out;
+}
+
+@keyframes pageSlideDown {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pageSlideUp {
+    from { opacity: 0; transform: translateY(-30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 14px;
+}
+
+.btn-loading {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+}
+
+.btn-loading::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    top: 50%;
+    left: 50%;
+    margin: -7px 0 0 -7px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: btn-spin 0.5s linear infinite;
+}
+
+.btn-secondary.btn-loading::after {
+    border-color: rgba(0,0,0,0.15);
+    border-top-color: var(--text);
+}
+
+@keyframes btn-spin {
+    to { transform: rotate(360deg); }
+}

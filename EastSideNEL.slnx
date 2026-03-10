@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="EastSide/EastSide.csproj" />
+  <Project Path="EastSide.Core/EastSide.Core.csproj" />
+  <Project Path="EastSide.UI/EastSide.UI.csproj" />
+</Solution>

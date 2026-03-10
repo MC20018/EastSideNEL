@@ -1,0 +1,535 @@
+.network-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.network-header h2 {
+    margin-bottom: 4px;
+}
+
+.network-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.network-search {
+    width: 200px;
+    padding: 7px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 13px;
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.network-search:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.12);
+}
+
+.network-search::placeholder {
+    color: var(--text-muted);
+}
+
+.server-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.server-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 280px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.server-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.server-card-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.server-card-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.75) 100%);
+}
+
+.server-card-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px;
+    color: #fff;
+}
+
+.server-card-name {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+.server-card-online {
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 4px;
+}
+
+.server-card-id {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.server-card-join {
+    margin-top: 10px;
+    width: 100%;
+    padding: 7px 0;
+    border: none;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.12s;
+}
+
+.server-card-join:hover {
+    background: rgba(255,255,255,0.35);
+}
+
+.server-card-placeholder {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.network-loading, .network-empty {
+    text-align: center;
+    padding: 60px 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.network-load-more {
+    text-align: center;
+    padding: 20px;
+}
+
+.network-scroll-loading {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.rental-lock {
+    display: inline-block;
+    font-size: 11px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 2px;
+}
+
+.join-form-group {
+    margin-bottom: 14px;
+}
+
+.join-form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select-trigger {
+    width: 100%;
+    padding: 8px 32px 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 13px;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.15s;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.custom-select-trigger:focus,
+.custom-select.open .custom-select-trigger {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.12);
+}
+
+.custom-select-arrow {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: transform 0.2s;
+    color: var(--text-muted);
+}
+
+.custom-select.open .custom-select-arrow {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.custom-select-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    z-index: 10;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.2s ease, opacity 0.15s ease;
+}
+
+.custom-select.open .custom-select-dropdown {
+    max-height: 180px;
+    overflow-y: auto;
+    opacity: 1;
+}
+
+.custom-select-option {
+    padding: 8px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.1s;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.custom-select-option:hover {
+    background: var(--bg);
+}
+
+.custom-select-option.selected {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.custom-select-empty {
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.join-role-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.join-role-actions select {
+    flex: 1;
+}
+
+.join-add-role-btn {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.12s;
+}
+
+.join-add-role-btn:hover {
+    background: var(--bg);
+}
+
+.dialog-footer-3 {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 0 20px 16px;
+}
+
+/* 服务器详情页 */
+.server-detail {
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.server-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.server-detail-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.12s;
+    flex-shrink: 0;
+}
+
+.server-detail-back:hover {
+    background: var(--bg);
+}
+
+.server-detail-title {
+    font-size: 18px;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.server-detail-images {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 240px;
+    margin-bottom: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+}
+
+.server-detail-images img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.server-detail-images .detail-img-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.server-detail-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.server-detail-section {
+    margin-bottom: 16px;
+}
+
+.server-detail-section-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.server-detail-roles {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.role-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: border-color 0.12s;
+}
+
+.role-row:hover {
+    border-color: var(--accent);
+}
+
+.role-row-left {
+    flex: 1;
+    min-width: 0;
+}
+
+.role-row-name {
+    font-size: 13px;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.role-row-banned {
+    border-color: #e74c3c33;
+    background: #e74c3c08;
+}
+
+.role-ban-info {
+    font-size: 11px;
+    color: #e74c3c;
+    margin-top: 2px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.role-ban-permanent {
+    font-weight: 600;
+}
+
+.role-ban-countdown {
+    font-variant-numeric: tabular-nums;
+}
+
+.role-ban-date {
+    color: var(--text-muted);
+}
+
+.role-row-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.role-row-actions button {
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s;
+    background: var(--surface);
+    color: var(--text);
+}
+
+.role-row-actions button:hover {
+    background: var(--bg);
+}
+
+.role-row-actions .role-launch-btn {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+
+.role-row-actions .role-launch-btn:hover {
+    opacity: 0.85;
+}
+
+.role-row-actions .role-delete-btn {
+    color: #e74c3c;
+    border-color: #e74c3c33;
+}
+
+.role-row-actions .role-delete-btn:hover {
+    background: #e74c3c11;
+    border-color: #e74c3c;
+}
+
+.detail-add-role-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 10px;
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color 0.12s, color 0.12s;
+}
+
+.detail-add-role-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.detail-no-roles {
+    text-align: center;
+    padding: 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.detail-password-group {
+    margin-bottom: 16px;
+}
+
+.detail-password-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.detail-password-group input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 13px;
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+    box-sizing: border-box;
+}
+
+.detail-password-group input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.12);
+}

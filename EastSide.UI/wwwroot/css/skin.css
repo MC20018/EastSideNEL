@@ -1,0 +1,133 @@
+.skin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.skin-header h2 {
+    margin-bottom: 4px;
+}
+
+.skin-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.skin-search {
+    width: 200px;
+    padding: 7px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 13px;
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.skin-search:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.12);
+}
+
+.skin-search::placeholder {
+    color: var(--text-muted);
+}
+
+.skin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.skin-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 260px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.skin-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.skin-card-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.skin-card-placeholder {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.skin-card-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.75) 100%);
+}
+
+.skin-card-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 14px;
+    color: #fff;
+}
+
+.skin-card-name {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+.skin-card-apply {
+    width: 100%;
+    padding: 6px 0;
+    border: none;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.12s;
+}
+
+.skin-card-apply:hover {
+    background: rgba(255,255,255,0.35);
+}
+
+.skin-loading, .skin-empty {
+    text-align: center;
+    padding: 60px 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.skin-load-more {
+    text-align: center;
+    padding: 20px;
+}
+
+.skin-scroll-loading {
+    font-size: 13px;
+    color: var(--text-muted);
+}
