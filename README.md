@@ -17,6 +17,10 @@ EastSideNEL
 2. 点击插件商店
 3. 安装想要的插件
 
+### 数据目录在哪？
+1. 网页数据位于C:\ProgramData\EastSide
+2. 用户的数据或软件的数据在软件同级目录的data文件夹
+
 ## 开源协议
 本项目遵循 **[GNU GPLv3](https://www.gnu.org/licenses/gpl-3.0.html)** 协议开源
 ```text
