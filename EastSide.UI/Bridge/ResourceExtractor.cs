@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Text;
 using Serilog;
 
 namespace EastSide.UI.Bridge;
@@ -15,12 +17,16 @@ public static class ResourceExtractor
     {
         "css", "js", "assets"
     };
+    
+    private static string GetSafeBaseDir()
+    {
+        var appData = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+        return Path.Combine(appData, "EastSide");
+    }
 
     public static string Extract()
     {
-        var resourceDir = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "EastSide", "wwwroot");
+        var resourceDir = Path.Combine(GetSafeBaseDir(), "wwwroot");
 
         var asm = Assembly.GetExecutingAssembly();
         var names = asm.GetManifestResourceNames()

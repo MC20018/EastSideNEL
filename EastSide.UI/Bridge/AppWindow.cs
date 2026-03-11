@@ -26,10 +26,17 @@ public static class AppWindow
 
         var settings = SettingManager.Instance.Get();
 
+        // Fuck Chinese usernames
+        var webviewDataDir = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+            "EastSide", "EBWebView");
+        Directory.CreateDirectory(webviewDataDir);
+
         _window = new PhotinoWindow()
             .SetTitle("EastSide")
             .SetChromeless(true)
             .SetGrantBrowserPermissions(true)
+            .SetTemporaryFilesPath(webviewDataDir)
             .SetSize(1200, 750)
             .SetMinSize(900, 600)
             .SetUseOsDefaultSize(false)
