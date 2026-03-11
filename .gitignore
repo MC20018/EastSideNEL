@@ -10,3 +10,4 @@ Properties
 *.pdb
 .claude
 docs
+IrcServer

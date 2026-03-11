@@ -9,6 +9,7 @@ using Codexus.Interceptors;
 using Codexus.OpenSDK.Entities.Yggdrasil;
 using Codexus.OpenSDK.Yggdrasil;
 using EastSide.Core.Network;
+using EastSide.IRC;
 using EastSide.Manager;
 using EastSide.Type;
 using EastSide.Utils;
@@ -71,7 +72,9 @@ public static class Backend
         UserManager.Instance.ReadUsersFromDisk();
         Interceptor.EnsureLoaded();
         PacketManager.Instance.RegisterPacketFromAssembly(typeof(Backend).Assembly);
+        PacketManager.Instance.RegisterPacketFromAssembly(typeof(IrcManager).Assembly);
         PacketManager.Instance.EnsureRegistered();
+        RegisterIrcHandler();
         HttpUrlRewriter.Initialize();
         try
         {
@@ -84,7 +87,12 @@ public static class Backend
         }
         await Task.CompletedTask;
     }
-
+    
+    static void RegisterIrcHandler()
+    {
+        IrcEventHandler.Register(() => AuthManager.Instance.Token);
+    }
+    
     public static async Task<(bool Success, string Message)> RandomLogin4399Async()
     {
         try

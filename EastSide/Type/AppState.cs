@@ -27,5 +27,5 @@ public class AppState
     public static readonly Com4399 Com4399 = new Com4399();
     public const string DataFolder = "data";
     internal static Services? Services;
-    public const string AppVersion = "ES_new 1.0";
+    public const string AppVersion = "ES_new 1.1";
 }

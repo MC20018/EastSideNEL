@@ -49,7 +49,26 @@ public sealed class AuthManager
     public string GetAuthFilePath()
     {
         var baseDir = Path.GetDirectoryName(Environment.ProcessPath) ?? AppContext.BaseDirectory;
-        return Path.Combine(baseDir, "auth.dat");
+        var dataDir = Path.Combine(baseDir, "data");
+        Directory.CreateDirectory(dataDir);
+        var newPath = Path.Combine(dataDir, "auth.dat");
+
+        var oldPath = Path.Combine(baseDir, "auth.dat");
+        if (!File.Exists(newPath) && File.Exists(oldPath))
+        {
+            try
+            {
+                File.Move(oldPath, newPath);
+                Log.Information("已将 auth.dat 从 {Old} 迁移到 {New}", oldPath, newPath);
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "迁移 auth.dat 失败，将使用旧路径");
+                return oldPath;
+            }
+        }
+
+        return newPath;
     }
 
     public void LoadFromDisk()

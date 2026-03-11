@@ -10,6 +10,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\EastSide.Core\EastSide.Core.csproj" />
+        <ProjectReference Include="..\EastSide.IRC\EastSide.IRC.csproj" />
     </ItemGroup>
 
     <ItemGroup>
