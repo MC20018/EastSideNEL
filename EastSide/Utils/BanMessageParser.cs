@@ -58,12 +58,7 @@ public static class BanMessageParser
             };
         }
 
-        Log.Warning("[BanParser] 无法解析封禁时长，标记为未知封禁: {Message}", message);
-        return new BanEntry
-        {
-            UserId = userId, ServerId = serverId, RoleName = roleName,
-            Reason = message, BanTime = now,
-            UnbanTime = null, IsPermanent = true
-        };
+        Log.Warning("[BanParser] 无法解析封禁时长，跳过记录: {Message}", message);
+        return null;
     }
 }
