@@ -28,6 +28,9 @@ public static class Backend
     {
         AuthManager.Instance.LoadFromDisk();
         LocalHttpServer.Instance.Start();
+        IdentifierServer.Instance.ChannelLookup = LookupChannel;
+        IdentifierServer.Instance.OnChannelMarked = addr => IrcEventHandler.MarkSouthside(addr);
+        IdentifierServer.Instance.Start();
         _ = InitializeServicesAsync();
     }
 
@@ -91,6 +94,30 @@ public static class Backend
     static void RegisterIrcHandler()
     {
         IrcEventHandler.Register(() => AuthManager.Instance.Token);
+        IrcEventHandler.LocalAddressLookup = id =>
+        {
+            var interceptor = GameManager.Instance.GetInterceptor(id);
+            if (interceptor == null) return null;
+            return $"{interceptor.LocalAddress}:{interceptor.LocalPort}";
+        };
+    }
+
+    private static ChannelInfo? LookupChannel(string address)
+    {
+        var interceptors = GameManager.Instance.GetQueryInterceptors();
+        var match = interceptors.FirstOrDefault(i =>
+            string.Equals(i.LocalAddress, address, StringComparison.OrdinalIgnoreCase));
+        if (match == null) return null;
+
+        return new ChannelInfo
+        {
+            Identifier = match.Name.ToString(),
+            ServerName = match.Server,
+            RoleName = match.Role,
+            ServerVersion = match.Version,
+            LocalAddress = match.LocalAddress,
+            ForwardAddress = match.Address
+        };
     }
     
     public static async Task<(bool Success, string Message)> RandomLogin4399Async()

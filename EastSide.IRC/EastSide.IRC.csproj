@@ -20,6 +20,9 @@
     <PackageReference Include="DotNetty.Transport" Version="0.7.6"/>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EastSide.Core\EastSide.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="Codexus.Development.SDK">
       <HintPath>..\SDK\Codexus.Development.SDK.dll</HintPath>
     </Reference>

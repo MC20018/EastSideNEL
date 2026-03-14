@@ -110,7 +110,20 @@ public static class NetworkHandler
             var result = await Task.Run(() => new CreateRoleNamed().Execute(serverId, roleName));
             if (!result.Success) return BridgeResponse.Fail(req, result.Message ?? "创建角色失败");
 
-            var roles = result.Items.Select(r => new { id = r.Id, name = r.Name }).ToList();
+            var userId = UserManager.Instance.GetLastAvailableUserId();
+            var roles = result.Items.Select(r =>
+            {
+                var ban = userId != null
+                    ? BanRecordManager.Instance.GetBanEntry(userId, serverId, r.Name)
+                    : null;
+                return new
+                {
+                    id = r.Id, name = r.Name,
+                    banned = ban != null && (ban.IsPermanent || (ban.UnbanTime != null && DateTime.Now < ban.UnbanTime.Value)),
+                    permanent = ban?.IsPermanent ?? false,
+                    unbanTime = ban?.UnbanTime?.ToString("o")
+                };
+            }).ToList();
             return BridgeResponse.Ok(req, new { roles, message = "角色创建成功" });
         }
         catch (Exception ex)
@@ -161,7 +174,22 @@ public static class NetworkHandler
 
             if (!result.Success) return BridgeResponse.Fail(req, result.Message ?? "删除角色失败");
 
-            var roles = result.Items.Select(r => new { id = r.Id, name = r.Name }).ToList();
+            var userId = string.IsNullOrWhiteSpace(accountId)
+                ? UserManager.Instance.GetLastAvailableUserId()
+                : UserManager.Instance.GetAvailableUserId(accountId);
+            var roles = result.Items.Select(r =>
+            {
+                var ban = userId != null
+                    ? BanRecordManager.Instance.GetBanEntry(userId, serverId, r.Name)
+                    : null;
+                return new
+                {
+                    id = r.Id, name = r.Name,
+                    banned = ban != null && (ban.IsPermanent || (ban.UnbanTime != null && DateTime.Now < ban.UnbanTime.Value)),
+                    permanent = ban?.IsPermanent ?? false,
+                    unbanTime = ban?.UnbanTime?.ToString("o")
+                };
+            }).ToList();
             return BridgeResponse.Ok(req, new { roles, message = "角色已删除" });
         }
         catch (Exception ex)

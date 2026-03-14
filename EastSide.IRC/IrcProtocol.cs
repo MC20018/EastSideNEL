@@ -9,6 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 using System;
+using System.Collections.Generic;
 
 namespace EastSide.IRC;
 
@@ -17,8 +18,10 @@ public static class IrcProtocol
     public const string Host = "api.fandmc.cn";
     public const int Port = 9527;
 
-    public static string Register(string token, string roleId) 
-        => $"REGISTER {token} {roleId}";
+    public static string Register(string token, string roleId, string clientTag = "")
+        => string.IsNullOrEmpty(clientTag)
+            ? $"REGISTER {token} {roleId}"
+            : $"REGISTER {token} {roleId} {clientTag}";
 
     public static string Get(string token, string roleId)
         => $"GET {token} {roleId}";
@@ -89,4 +92,21 @@ public class IrcMessage
     public bool IsPong => Type == "PONG";
     public bool IsList => Type == "LIST";
     public int PlayerCount => int.TryParse(Data, out var c) ? c : 0;
+
+    public List<(string RoleId, string Username)> PlayerEntries
+    {
+        get
+        {
+            var list = new List<(string, string)>(Players.Length);
+            foreach (var p in Players)
+            {
+                var idx = p.IndexOf(':');
+                if (idx > 0)
+                    list.Add((p[..idx], p[(idx + 1)..]));
+                else
+                    list.Add((p, p));
+            }
+            return list;
+        }
+    }
 }

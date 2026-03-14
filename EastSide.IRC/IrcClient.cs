@@ -22,15 +22,20 @@ public class IrcClient : IDisposable
     readonly GameConnection _conn;
     readonly string _token;
     string _roleId = string.Empty;
+    string _clientTag = string.Empty;
 
     TcpLineClient? _tcp;
     bool _welcomed;
     bool _listShown;
     Timer? _pingTimer;
+    Timer? _tabTickTimer;
     volatile bool _running;
+    readonly IrcTabList _tabList = new();
 
     public string RoleId => _roleId;
+    public string ClientTag => _clientTag;
     public GameConnection Connection => _conn;
+    public IrcTabList TabList => _tabList;
     public event EventHandler<IrcChatEventArgs>? ChatReceived;
 
     public IrcClient(GameConnection conn, Func<string>? tokenProvider)
@@ -39,12 +44,13 @@ public class IrcClient : IDisposable
         _token = tokenProvider?.Invoke() ?? "";
     }
 
-    public void Start(string nickName)
+    public void Start(string nickName, string clientTag = "")
     {
         if (_running) return;
         _running = true;
         _roleId = nickName;
-        Log.Information("[IRC] 启动: NickName={NickName}, RoleId={RoleId}", nickName, _roleId);
+        _clientTag = clientTag;
+        Log.Information("[IRC] 启动: NickName={NickName}, ClientTag={Tag}", nickName, clientTag);
         Task.Run(Run);
     }
 
@@ -52,6 +58,8 @@ public class IrcClient : IDisposable
     {
         _running = false;
         _pingTimer?.Dispose();
+        _tabTickTimer?.Dispose();
+        _tabList.Clear(_conn);
         _tcp?.Close();
     }
 
@@ -82,13 +90,18 @@ public class IrcClient : IDisposable
                 _tcp = new TcpLineClient(IrcProtocol.Host, IrcProtocol.Port);
                 _tcp.Connect();
 
-                _tcp.Send(IrcProtocol.Register(_token, _roleId));
+                _tcp.Send(IrcProtocol.Register(_token, _roleId, _clientTag));
                 
                 _pingTimer = new Timer(_ =>
                 {
                     _tcp?.Send(IrcProtocol.Ping());
                     _tcp?.Send(IrcProtocol.List());
                 }, null, 30000, 30000);
+
+                _tabTickTimer = new Timer(_ =>
+                {
+                    if (_running) _tabList.Tick(_conn);
+                }, null, 3000, 3000);
 
                 while (_running)
                 {
@@ -103,6 +116,7 @@ public class IrcClient : IDisposable
             }
 
             _pingTimer?.Dispose();
+            _tabTickTimer?.Dispose();
             _tcp?.Close();
             if (_running) Thread.Sleep(3000);
         }
@@ -142,6 +156,8 @@ public class IrcClient : IDisposable
                     }
                     if (msg.PlayerCount > 0)
                         Msg($"§e[§bIRC§e] 当前在线 {msg.PlayerCount} 人，使用 §a/irc 想说的话§e 聊天");
+
+                    _tabList.UpdateIrcList(msg.PlayerEntries);
                 }
             });
         }
