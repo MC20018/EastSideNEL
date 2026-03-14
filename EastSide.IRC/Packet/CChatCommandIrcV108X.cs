@@ -84,9 +84,7 @@ public class CChatCommandIrcV108X : IPacket
             var buffer = Unpooled.Buffer();
             buffer.WriteVarInt(0x02);
             var jsonMessage = "{\"text\":\"" + message.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
-            var messageBytes = System.Text.Encoding.UTF8.GetBytes(jsonMessage);
-            buffer.WriteShort((short)messageBytes.Length);
-            buffer.WriteBytes(messageBytes);
+            buffer.WriteStringToBuffer(jsonMessage);
             buffer.WriteByte(0);
             connection.ClientChannel?.WriteAndFlushAsync(buffer);
         }
