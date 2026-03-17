@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using Codexus.Cipher.Entities;
 using Codexus.Cipher.Entities.WPFLauncher.NetGame;
-using EastSide.Core.Entity.WFPLauncher.NetGame;
 using EastSide.Type;
 using EastSide.Manager;
 using EastSide.Entities.Web.NetGame;

@@ -29,6 +29,9 @@
         <Reference Include="Codexus.OpenSDK">
             <HintPath>..\SDK\Codexus.OpenSDK.dll</HintPath>
         </Reference>
+        <Reference Include="svhost">
+            <HintPath>..\SDK\svhost.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
     <ItemGroup>

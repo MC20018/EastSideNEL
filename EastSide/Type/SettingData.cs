@@ -27,6 +27,8 @@ public class SettingData : INotifyPropertyChanged
     private string _socks5Username = string.Empty;
     private string _socks5Password = string.Empty;
     private bool _useMixedLogin = true;
+    private bool _ircHintEnabled = true;
+    private int _ircHintInterval = 30;
 
     [JsonPropertyName("themeMode")] public string ThemeMode { get => _themeMode; set => Set(ref _themeMode, value); }
     [JsonPropertyName("themeColor")] public string ThemeColor { get => _themeColor; set => Set(ref _themeColor, value); }
@@ -43,4 +45,6 @@ public class SettingData : INotifyPropertyChanged
     [JsonPropertyName("socks5Username")] public string Socks5Username { get => _socks5Username; set => Set(ref _socks5Username, value); }
     [JsonPropertyName("socks5Password")] public string Socks5Password { get => _socks5Password; set => Set(ref _socks5Password, value); }
     [JsonPropertyName("useMixedLogin")] public bool UseMixedLogin { get => _useMixedLogin; set => Set(ref _useMixedLogin, value); }
+    [JsonPropertyName("ircHintEnabled")] public bool IrcHintEnabled { get => _ircHintEnabled; set => Set(ref _ircHintEnabled, value); }
+    [JsonPropertyName("ircHintInterval")] public int IrcHintInterval { get => _ircHintInterval; set => Set(ref _ircHintInterval, value); }
 }

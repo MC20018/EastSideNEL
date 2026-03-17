@@ -86,6 +86,14 @@ function buildSettingsHtml(s) {
                 [{ value: 'none', label: '无操作' }, { value: 'close', label: '关闭此通道' }, { value: 'switch', label: '关闭通道并启动其他角色' }],
                 s.autoDisconnectOnBan || 'none'))}
         ${settingsToggleRow('调试模式', '启用后会在日志中输出更详细的调试信息', 'set-debug', s.debug)}
+        ${settingsToggleRow('IRC 在线提示', '启用后会在聊天中定时显示 IRC 在线人数', 'set-irc-hint', s.ircHintEnabled)}
+        <div id="set-irc-hint-panel" style="display:${s.ircHintEnabled ? 'block' : 'none'}">
+            <div class="settings-card">
+                <div class="settings-card-title">提示频率（秒）</div>
+                <div class="settings-card-desc">每隔多少秒显示一次 IRC 在线人数，最低 10 秒</div>
+                <input class="settings-input" id="set-irc-interval" type="number" min="10" value="${s.ircHintInterval || 30}" placeholder="30">
+            </div>
+        </div>
     </div>`;
 
     html += `<div class="settings-section${_settingsTab === 'network' ? ' active' : ''}" data-section="network">
@@ -265,6 +273,14 @@ function bindSettingsEvents() {
     on('set-autocopy', 'change', e => saveSettings({ autoCopyIpOnStart: e.target.checked }));
     initSettingsSelect('set-ban', v => saveSettings({ autoDisconnectOnBan: v }));
     on('set-debug', 'change', e => saveSettings({ debug: e.target.checked }));
+
+    on('set-irc-hint', 'change', e => {
+        const v = e.target.checked;
+        const panel = document.getElementById('set-irc-hint-panel');
+        if (panel) panel.style.display = v ? 'block' : 'none';
+        saveSettings({ ircHintEnabled: v });
+    });
+    on('set-irc-interval', 'change', e => saveSettings({ ircHintInterval: Math.max(10, parseInt(e.target.value) || 30) }));
 
     on('set-socks5', 'change', e => {
         const v = e.target.checked;

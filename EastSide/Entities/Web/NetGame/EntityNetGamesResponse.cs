@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
 using Codexus.Cipher.Entities.WPFLauncher.NetGame;
-using EastSide.Core.Entity.WFPLauncher.NetGame;
 
 namespace EastSide.Entities.Web.NetGame;
 

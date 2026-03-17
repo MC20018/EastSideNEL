@@ -10,4 +10,7 @@ Properties
 *.pdb
 .claude
 docs
-IrcServer
+*Server
+publish
+output
+.mcp.*

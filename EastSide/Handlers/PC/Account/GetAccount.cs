@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EastSide.Manager;
+using Serilog;
 
 namespace EastSide.Handlers.PC.Account;
 
@@ -17,6 +18,13 @@ public class GetAccount
 {
     public static List<AccountItem> GetAccountList()
     {
+        var last = UserManager.Instance.GetLastAvailableUser();
+        if (last != null)
+        {
+            Log.Information(last.UserId);
+            Log.Information(last.AccessToken);
+        }
+
         var users = UserManager.Instance.GetUsersNoDetails();
         return users.Select(u => new AccountItem
         {

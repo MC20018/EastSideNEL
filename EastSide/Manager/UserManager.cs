@@ -7,7 +7,6 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Codexus.Cipher.Entities.WPFLauncher;
-using EastSide.Core.Entity.WFPLauncher;
 using Codexus.Cipher.Protocol;
 using Codexus.Development.SDK.Entities;
 using Codexus.Development.SDK.Manager;

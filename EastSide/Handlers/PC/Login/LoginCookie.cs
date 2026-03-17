@@ -1,6 +1,5 @@
 using System.Text.Json;
 using Codexus.Cipher.Entities.WPFLauncher;
-using EastSide.Core.Entity.WFPLauncher;
 using EastSide.Manager;
 using EastSide.Handlers.PC.Account;
 using EastSide.Entities.Web;

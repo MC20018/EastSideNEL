@@ -3,7 +3,6 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Codexus.Cipher.Entities;
 using Codexus.Cipher.Entities.WPFLauncher.NetGame;
-using EastSide.Core.Entity.WFPLauncher;
 using Codexus.Cipher.Utils.Cipher;
 using Codexus.Cipher.Utils.Http;
 
@@ -82,78 +81,6 @@ public class GameProtocol : WPFLauncherBase
 	{
 		string body = JsonSerializer.Serialize(new { entity_id = entityId }, DefaultOptions);
 		return JsonSerializer.Deserialize<Entity<EntityGameCharacter>>(await (await _game.PostAsync("/game-character/cancel-pre-delete", body, delegate(HttpWrapper.HttpWrapperBuilder builder)
-		{
-			builder.AddHeader(TokenUtil.ComputeHttpRequestToken(builder.Url, builder.Body, userId, userToken));
-		})).Content.ReadAsStringAsync());
-	}
-
-	#endregion
-
-	#region 游戏皮肤 (源码: aey.cs)
-
-	public Entity<EntityUserGameSkin> GetUserGameSkin(string userId, string userToken, string itemId)
-	{
-		return GetUserGameSkinAsync(userId, userToken, itemId).GetAwaiter().GetResult();
-	}
-
-	private async Task<Entity<EntityUserGameSkin>> GetUserGameSkinAsync(string userId, string userToken, string itemId)
-	{
-		string body = JsonSerializer.Serialize(new { item_id = itemId }, DefaultOptions);
-		return JsonSerializer.Deserialize<Entity<EntityUserGameSkin>>(await (await _game.PostAsync("/user-game-skin", body, delegate(HttpWrapper.HttpWrapperBuilder builder)
-		{
-			builder.AddHeader(TokenUtil.ComputeHttpRequestToken(builder.Url, builder.Body, userId, userToken));
-		})).Content.ReadAsStringAsync());
-	}
-
-	public EntityResponse GetUserGameSkinMulti(string userId, string userToken, List<string> itemIdList)
-	{
-		return GetUserGameSkinMultiAsync(userId, userToken, itemIdList).GetAwaiter().GetResult();
-	}
-
-	private async Task<EntityResponse> GetUserGameSkinMultiAsync(string userId, string userToken, List<string> itemIdList)
-	{
-		string body = JsonSerializer.Serialize(new { item_id_list = itemIdList }, DefaultOptions);
-		return JsonSerializer.Deserialize<EntityResponse>(await (await _game.PostAsync("/user-game-skin-multi", body, delegate(HttpWrapper.HttpWrapperBuilder builder)
-		{
-			builder.AddHeader(TokenUtil.ComputeHttpRequestToken(builder.Url, builder.Body, userId, userToken));
-		})).Content.ReadAsStringAsync());
-	}
-
-	public Entities<EntityUserItemPurchase> SearchSkinByUser(string userId, string userToken)
-	{
-		return SearchSkinByUserAsync(userId, userToken).GetAwaiter().GetResult();
-	}
-
-	private async Task<Entities<EntityUserItemPurchase>> SearchSkinByUserAsync(string userId, string userToken)
-	{
-		return JsonSerializer.Deserialize<Entities<EntityUserItemPurchase>>(await (await _game.PostAsync("/user-item-purchase/query/search-by-user", "", delegate(HttpWrapper.HttpWrapperBuilder builder)
-		{
-			builder.AddHeader(TokenUtil.ComputeHttpRequestToken(builder.Url, builder.Body, userId, userToken));
-		})).Content.ReadAsStringAsync());
-	}
-
-	public Entities<EntityLocalSkin> SearchSkinByType(string userId, string userToken, int skinType)
-	{
-		return SearchSkinByTypeAsync(userId, userToken, skinType).GetAwaiter().GetResult();
-	}
-
-	private async Task<Entities<EntityLocalSkin>> SearchSkinByTypeAsync(string userId, string userToken, int skinType)
-	{
-		string body = JsonSerializer.Serialize(new { skin_type = skinType }, DefaultOptions);
-		return JsonSerializer.Deserialize<Entities<EntityLocalSkin>>(await (await _game.PostAsync("/user-game-skin/query/search-by-type", body, delegate(HttpWrapper.HttpWrapperBuilder builder)
-		{
-			builder.AddHeader(TokenUtil.ComputeHttpRequestToken(builder.Url, builder.Body, userId, userToken));
-		})).Content.ReadAsStringAsync());
-	}
-
-	public Entities<EntityLocalSkin> GetUserLocalSkin(string userId, string userToken)
-	{
-		return GetUserLocalSkinAsync(userId, userToken).GetAwaiter().GetResult();
-	}
-
-	private async Task<Entities<EntityLocalSkin>> GetUserLocalSkinAsync(string userId, string userToken)
-	{
-		return JsonSerializer.Deserialize<Entities<EntityLocalSkin>>(await (await _game.PostAsync("/user-local-skin", "", delegate(HttpWrapper.HttpWrapperBuilder builder)
 		{
 			builder.AddHeader(TokenUtil.ComputeHttpRequestToken(builder.Url, builder.Body, userId, userToken));
 		})).Content.ReadAsStringAsync());
@@ -253,50 +180,6 @@ public class GameProtocol : WPFLauncherBase
 	{
 		string body = JsonSerializer.Serialize(new { emoteIds }, DefaultOptions);
 		return JsonSerializer.Deserialize<EntityResponse>(await (await _game.PostAsync("/user-emotes/set-user-emotes", body, delegate(HttpWrapper.HttpWrapperBuilder builder)
-		{
-			builder.AddHeader(TokenUtil.ComputeHttpRequestToken(builder.Url, builder.Body, userId, userToken));
-		})).Content.ReadAsStringAsync());
-	}
-
-	#endregion
-
-	#region 游戏记录和审核
-
-	public EntityResponse SearchGamePlayRecordByIdType(string userId, string userToken, string recordId, int recordType)
-	{
-		return SearchGamePlayRecordByIdTypeAsync(userId, userToken, recordId, recordType).GetAwaiter().GetResult();
-	}
-
-	private async Task<EntityResponse> SearchGamePlayRecordByIdTypeAsync(string userId, string userToken, string recordId, int recordType)
-	{
-		string body = JsonSerializer.Serialize(new { recordId, recordType }, DefaultOptions);
-		return JsonSerializer.Deserialize<EntityResponse>(await (await _game.PostAsync("/game-play-record/query/search-by-id-type", body, delegate(HttpWrapper.HttpWrapperBuilder builder)
-		{
-			builder.AddHeader(TokenUtil.ComputeHttpRequestToken(builder.Url, builder.Body, userId, userToken));
-		})).Content.ReadAsStringAsync());
-	}
-
-	public Entity<EntityReviewStatus> GetReviewStatus(string userId, string userToken)
-	{
-		return GetReviewStatusAsync(userId, userToken).GetAwaiter().GetResult();
-	}
-
-	private async Task<Entity<EntityReviewStatus>> GetReviewStatusAsync(string userId, string userToken)
-	{
-		return JsonSerializer.Deserialize<Entity<EntityReviewStatus>>(await (await _game.PostAsync("/review_status", "", delegate(HttpWrapper.HttpWrapperBuilder builder)
-		{
-			builder.AddHeader(TokenUtil.ComputeHttpRequestToken(builder.Url, builder.Body, userId, userToken));
-		})).Content.ReadAsStringAsync());
-	}
-
-	public EntityResponse GetUserTimeLimitItem(string userId, string userToken)
-	{
-		return GetUserTimeLimitItemAsync(userId, userToken).GetAwaiter().GetResult();
-	}
-
-	private async Task<EntityResponse> GetUserTimeLimitItemAsync(string userId, string userToken)
-	{
-		return JsonSerializer.Deserialize<EntityResponse>(await (await _game.PostAsync("/user-time-limit-item", "", delegate(HttpWrapper.HttpWrapperBuilder builder)
 		{
 			builder.AddHeader(TokenUtil.ComputeHttpRequestToken(builder.Url, builder.Body, userId, userToken));
 		})).Content.ReadAsStringAsync());

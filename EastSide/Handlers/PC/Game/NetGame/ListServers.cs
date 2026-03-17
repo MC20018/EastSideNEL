@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using Codexus.Cipher.Entities.WPFLauncher.NetGame;
-using EastSide.Core.Entity.WFPLauncher.NetGame;
 using Serilog;
 using EastSide.Type;
 using EastSide.Manager;

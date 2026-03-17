@@ -92,11 +92,14 @@ public class IrcClient : IDisposable
 
                 _tcp.Send(IrcProtocol.Register(_token, _roleId, _clientTag));
                 
+                var interval = (IrcManager.IrcHintIntervalProvider?.Invoke() ?? 30) * 1000;
+                if (interval < 10000) interval = 10000;
+
                 _pingTimer = new Timer(_ =>
                 {
                     _tcp?.Send(IrcProtocol.Ping());
                     _tcp?.Send(IrcProtocol.List());
-                }, null, 30000, 30000);
+                }, null, interval, interval);
 
                 _tabTickTimer = new Timer(_ =>
                 {
@@ -154,7 +157,8 @@ public class IrcClient : IDisposable
                         _listShown = true;
                         Msg("§a[§bIRC§a] IRC 连接成功 Ciallo～(∠・ω< )⌒");
                     }
-                    if (msg.PlayerCount > 0)
+                    var hintEnabled = IrcManager.IrcHintEnabledProvider?.Invoke() ?? true;
+                    if (hintEnabled && msg.PlayerCount > 0)
                         Msg($"§e[§bIRC§e] 当前在线 {msg.PlayerCount} 人，使用 §a/irc 想说的话§e 聊天");
 
                     _tabList.UpdateIrcList(msg.PlayerEntries);

@@ -40,7 +40,7 @@ public static class Backend
         {
             await Task.Run(async () =>
             {
-                FileUtil.CreateDirectorySafe(PathUtil.CustomModsPath);
+                FileUtil.CreateDirectorySafe(PathUtil.ResourcePath);
                 AppState.Services = await CreateServicesAsync();
                 InternalQuery.Initialize();
                 await InitializeSystemComponentsAsync();
@@ -63,7 +63,7 @@ public static class Backend
         {
             LauncherVersion = launcherVersion,
             Channel = "netease",
-            CrcSalt = "B73962A7833192F9CAD0D68A2AA4462E"
+            CrcSalt = "B87246F34C1670B91773B2CDAB92D404"
         });
         return new Services(yggdrasil);
     }
@@ -94,6 +94,18 @@ public static class Backend
     static void RegisterIrcHandler()
     {
         IrcEventHandler.Register(() => AuthManager.Instance.Token);
+        IrcManager.IrcHintEnabledProvider = () => SettingManager.Instance.Get().IrcHintEnabled;
+        IrcManager.IrcHintIntervalProvider = () => SettingManager.Instance.Get().IrcHintInterval;
+        IrcManager.SkinLookupProvider = async (playerName, gameId) =>
+        {
+            try
+            {
+                var user = UserManager.Instance.GetLastAvailableUser();
+                if (user == null) return null;
+                return await NeteaseSkinLookup.LookupAsync(playerName, gameId, user.UserId, user.AccessToken);
+            }
+            catch { return null; }
+        };
         IrcEventHandler.LocalAddressLookup = id =>
         {
             var interceptor = GameManager.Instance.GetInterceptor(id);

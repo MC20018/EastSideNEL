@@ -26,6 +26,9 @@ public static class IrcManager
     
     public static Func<string>? TokenProvider { get; set; }
     public static Action<GameConnection>? OnClientRemoved { get; set; }
+    public static Func<bool>? IrcHintEnabledProvider { get; set; }
+    public static Func<int>? IrcHintIntervalProvider { get; set; }
+    public static Func<string, string, Task<(string SkinId, string SkinUrl, int SkinMode)?>>? SkinLookupProvider { get; set; }
 
     public static IrcClient GetOrCreate(GameConnection conn)
     {

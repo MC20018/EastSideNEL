@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using Codexus.Cipher.Entities.WPFLauncher.NetGame;
-using EastSide.Core.Entity.WFPLauncher.NetGame;
 using EastSide.Type;
 using EastSide.Entities.Web.NetGame;
 using Serilog;

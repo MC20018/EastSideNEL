@@ -23,6 +23,8 @@ public static class SettingsHandler
             socks5Port = s.Socks5Port,
             socks5Username = s.Socks5Username,
             socks5Password = s.Socks5Password,
+            ircHintEnabled = s.IrcHintEnabled,
+            ircHintInterval = s.IrcHintInterval,
         });
     }
 
@@ -45,6 +47,8 @@ public static class SettingsHandler
         if (data.TryGetProperty("socks5Port", out var v9)) s.Socks5Port = v9.GetInt32();
         if (data.TryGetProperty("socks5Username", out var v10)) s.Socks5Username = v10.GetString() ?? "";
         if (data.TryGetProperty("socks5Password", out var v11)) s.Socks5Password = v11.GetString() ?? "";
+        if (data.TryGetProperty("ircHintEnabled", out var v12)) s.IrcHintEnabled = v12.GetBoolean();
+        if (data.TryGetProperty("ircHintInterval", out var v13)) s.IrcHintInterval = v13.GetInt32();
 
         SettingManager.Instance.SaveToDisk();
         return BridgeResponse.Ok(req, new { message = "设置已保存" });

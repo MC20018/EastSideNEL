@@ -26,5 +26,8 @@
     <Reference Include="Codexus.Development.SDK">
       <HintPath>..\SDK\Codexus.Development.SDK.dll</HintPath>
     </Reference>
+    <Reference Include="Codexus.Cipher">
+      <HintPath>..\SDK\Codexus.Cipher.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
