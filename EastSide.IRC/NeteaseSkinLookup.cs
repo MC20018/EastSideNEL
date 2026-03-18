@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -14,20 +15,26 @@ public static class NeteaseSkinLookup
     const string GameBaseUrl = "https://x19apigatewayobt.nie.netease.com";
     static readonly int[] GameTypes = [2, 8, 9, 7, 10];
     static readonly HttpClient Http = new();
+    static readonly ConcurrentDictionary<string, (string SkinId, string SkinUrl, int SkinMode)?> _cache = new();
 
     public static async Task<(string SkinId, string SkinUrl, int SkinMode)?> LookupAsync(
         string playerName, string gameId, string userId, string userToken)
     {
+        var key = $"{playerName}:{gameId}";
+        if (_cache.TryGetValue(key, out var cached)) return cached;
+
         var targetUserId = await SearchCharacterAsync(playerName, gameId, userId, userToken);
-        if (targetUserId == null) return null;
+        if (targetUserId == null) { _cache[key] = null; return null; }
 
         var skinInfo = await GetSkinIdAsync(targetUserId, userId, userToken);
-        if (skinInfo == null) return null;
+        if (skinInfo == null) { _cache[key] = null; return null; }
 
         var skinUrl = await GetSkinDownloadUrlAsync(skinInfo.Value.SkinId, userId, userToken);
-        if (skinUrl == null) return null;
+        if (skinUrl == null) { _cache[key] = null; return null; }
 
-        return (skinInfo.Value.SkinId, skinUrl, skinInfo.Value.SkinMode);
+        var result = (skinInfo.Value.SkinId, skinUrl, skinInfo.Value.SkinMode);
+        _cache[key] = result;
+        return result;
     }
 
     static async Task<string?> SearchCharacterAsync(string playerName, string gameId, string userId, string userToken)
