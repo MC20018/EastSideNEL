@@ -66,3 +66,15 @@
 .btn-primary:hover { background: var(--accent-hover); }
 .btn-primary:active { transform: scale(0.98); }
 .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.form-link {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+.form-link a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+.form-link a:hover { text-decoration: underline; }

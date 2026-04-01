@@ -63,7 +63,7 @@ public static class Backend
         {
             LauncherVersion = launcherVersion,
             Channel = "netease",
-            CrcSalt = "B87246F34C1670B91773B2CDAB92D404"
+            CrcSalt = "18A43EEE9CA5A69277FCA28B984B8427"
         });
         return new Services(yggdrasil);
     }

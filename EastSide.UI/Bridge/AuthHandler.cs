@@ -82,6 +82,54 @@ public static class AuthHandler
         });
     }
 
+    public static async Task<BridgeResponse> Register(BridgeRequest req)
+    {
+        if (req.Data == null) return BridgeResponse.Fail(req, "缺少参数");
+
+        var username = req.Data.Value.GetProperty("username").GetString() ?? "";
+        var email = req.Data.Value.GetProperty("email").GetString() ?? "";
+        var password = req.Data.Value.GetProperty("password").GetString() ?? "";
+        var confirmPassword = req.Data.Value.GetProperty("confirmPassword").GetString() ?? "";
+
+        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(email) ||
+            string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(confirmPassword))
+            return BridgeResponse.Fail(req, "所有字段不能为空");
+
+        if (password != confirmPassword)
+            return BridgeResponse.Fail(req, "两次密码不一致");
+
+        var result = await AuthManager.Instance.RegisterNextAsync(email, username, password);
+        if (!result.Success)
+            return BridgeResponse.Fail(req, result.Message);
+
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                await AuthManager.Instance.FetchUserInfoAsync();
+                AuthManager.Instance.SaveToDisk();
+                PushAuthUpdate();
+            }
+            catch { }
+        });
+
+        return BridgeResponse.Ok(req, new
+        {
+            isLoggedIn = true,
+            username,
+            email,
+            userId = 0,
+            avatar = (string?)null,
+            rank = (string?)null,
+            isAdmin = false,
+            membershipStatus = "Unknown",
+            expiryDate = "",
+            daysLeft = "",
+            hasFeatureAccess = false,
+            fetchingUserInfo = true
+        });
+    }
+
     public static BridgeResponse Logout(BridgeRequest req)
     {
         AuthManager.Instance.Clear();

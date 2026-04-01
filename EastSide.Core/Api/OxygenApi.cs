@@ -52,7 +52,7 @@ public class OxygenApi : IDisposable
         => await PostAsync<ApiResponse>("/auth/verify_code", new { email, code }, ct);
 
     public async Task<LoginResponse> RegisterAsync(string email, string username, string password, CancellationToken ct = default)
-        => await PostAsync<LoginResponse>("/auth/register_next", new { email, username, password }, ct);
+        => await PostAsync<LoginResponse>("/auth/register", new { email, username, password, confirmPassword = password }, ct);
 
     public async Task<LoginResponse> LoginAsync(string usernameOrEmail, string password, CancellationToken ct = default)
         => await PostAsync<LoginResponse>("/auth/login", new { username = usernameOrEmail, password }, ct);

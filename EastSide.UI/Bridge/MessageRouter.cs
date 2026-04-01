@@ -39,6 +39,7 @@ public static class MessageRouter
             {
                 "auth:getStatus" => await AuthHandler.GetStatus(request),
                 "auth:login" => await AuthHandler.Login(request),
+                "auth:register" => await AuthHandler.Register(request),
                 "auth:logout" => AuthHandler.Logout(request),
                 "auth:register:sendCode" => await AuthHandler.SendRegisterCode(request),
                 "auth:register:verifyCode" => await AuthHandler.VerifyCode(request),
